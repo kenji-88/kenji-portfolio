@@ -42,15 +42,15 @@ body {
   50% { opacity: 1; transform: scale(1.5); }
 }
 h1 {
-  font-size: 26px;
+  font-size: 40px;
   color: #FFD700;
   text-shadow: 3px 3px 0 #333;
 }
 .subtitle {
   color: #87CEFA;
-  font-size: 10px;
-  margin-top: 10px;
-  text-shadow: 1px 1px 0 #000;
+  font-size: 30px;
+  margin-top: 30px;
+  text-shadow: 5px 5px 0 #000;
 }
 #press-start {
   color: #FFD700;
