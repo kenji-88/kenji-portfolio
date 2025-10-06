@@ -30,8 +30,8 @@ function initGame() {
 
   const hero = new Image();
   const field = new Image();
-  hero.src = "https://i.imgur.com/Fi1zThP.png"; // 小さな勇者のドット絵
-  field.src = "https://i.imgur.com/Lk0Ffvl.png"; // 草原背景
+  hero.src = "assets/hero.png"; // 小さな勇者のドット絵
+  field.src = "assets/field.png"; // 草原背景
 
   let heroX = canvas.width / 2;
   let heroY = canvas.height / 2;
