@@ -15,7 +15,7 @@ const btnBack = document.getElementById("btn-back");
 
 let currentIndex = 0;
 
-// === ゲームデータ ===
+// === データ ===
 const games = {
   "ドラクエⅢ": {
     desc: "壮大な冒険と感動のストーリー。世界を救う勇者たちの姿に心を打たれる。",
@@ -55,7 +55,7 @@ function showScreen(target) {
   target.classList.add("active");
 }
 
-// === ゲーム選択 ===
+// === 選択更新 ===
 function updateSelection() {
   gameList.forEach((li, i) => li.classList.toggle("selected", i === currentIndex));
 }
@@ -77,15 +77,13 @@ function showReview(game) {
       <div class="status-value">${value}/10</div>
     `;
     statusList.appendChild(stat);
-
-    // ゲージアニメーション
     setTimeout(() => {
       stat.querySelector(".status-fill").style.width = `${value * 10}%`;
     }, 100);
   });
 }
 
-// === 操作イベント（PC + スマホ） ===
+// === 操作共通 ===
 function handleInput(direction) {
   if (selectScreen.classList.contains("active")) {
     if (direction === "up") {
@@ -103,13 +101,7 @@ function handleInput(direction) {
   }
 }
 
-// === ボタン操作 ===
-btnUp.onclick = () => handleInput("up");
-btnDown.onclick = () => handleInput("down");
-btnEnter.onclick = () => handleInput("enter");
-btnBack.onclick = () => showScreen(selectScreen);
-
-// === キーボード操作（PC用） ===
+// === PCキーボード ===
 document.addEventListener("keydown", e => {
   if (titleScreen.classList.contains("active") && e.key === "Enter") {
     showScreen(selectScreen);
@@ -118,7 +110,11 @@ document.addEventListener("keydown", e => {
   else if (e.key === "Enter") handleInput("enter");
 });
 
-// === タイトル画面タップ ===
-titleScreen.addEventListener("click", () => {
-  showScreen(selectScreen);
+// === スマホタップ ===
+["touchstart", "click"].forEach(evt => {
+  titleScreen.addEventListener(evt, () => showScreen(selectScreen));
+  btnUp.addEventListener(evt, () => handleInput("up"));
+  btnDown.addEventListener(evt, () => handleInput("down"));
+  btnEnter.addEventListener(evt, () => handleInput("enter"));
+  btnBack.addEventListener(evt, () => showScreen(selectScreen));
 });

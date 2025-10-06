@@ -1,25 +1,27 @@
 body {
   margin: 0;
+  padding: 0;
   background: black;
   color: white;
   font-family: 'Press Start 2P', cursive;
-  overflow: hidden;
   text-align: center;
+  touch-action: manipulation; /* iOSのタップ遅延対策 */
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-/* 各画面をフルサイズ中央配置 */
 .screen {
-  position: fixed;
+  position: absolute;
   top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100dvh; /* ← iPhoneの動的高さ対応 */
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background: radial-gradient(circle at center, #001a33 10%, #000010 100%);
-  padding: 10px;
   box-sizing: border-box;
+  padding: 20px;
 }
 
 .screen.active {
@@ -42,7 +44,7 @@ h1, h2, h3, p {
   50% { opacity: 0; }
 }
 
-/* ゲーム選択画面 */
+/* ゲーム選択 */
 #game-list {
   list-style: none;
   padding: 0;
@@ -59,7 +61,7 @@ h1, h2, h3, p {
   color: #FFD700;
 }
 
-/* ステータス画面 */
+/* ステータス */
 #review-box {
   width: 90%;
   border: 3px solid #1E90FF;
@@ -111,7 +113,7 @@ h1, h2, h3, p {
   text-align: right;
 }
 
-/* ボタン配置 */
+/* ボタン */
 .buttons {
   display: flex;
   gap: 10px;
@@ -126,6 +128,8 @@ button {
   font-size: 10px;
   padding: 10px;
   border-radius: 6px;
+  min-width: 60px;
+  touch-action: manipulation;
 }
 
 #btn-back {
