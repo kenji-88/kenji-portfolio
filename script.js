@@ -110,11 +110,13 @@ document.addEventListener("keydown", e => {
   else if (e.key === "Enter") handleInput("enter");
 });
 
-// === スマホタップ ===
-["touchstart", "click"].forEach(evt => {
-  titleScreen.addEventListener(evt, () => showScreen(selectScreen));
-  btnUp.addEventListener(evt, () => handleInput("up"));
-  btnDown.addEventListener(evt, () => handleInput("down"));
-  btnEnter.addEventListener(evt, () => handleInput("enter"));
-  btnBack.addEventListener(evt, () => showScreen(selectScreen));
-});
+// === スマホ・PC共通タップ操作（pointerdownで統一） ===
+function onTap(el, fn) {
+  el.addEventListener("pointerdown", fn, { passive: true });
+}
+
+onTap(titleScreen, () => showScreen(selectScreen));
+onTap(btnUp, () => handleInput("up"));
+onTap(btnDown, () => handleInput("down"));
+onTap(btnEnter, () => handleInput("enter"));
+onTap(btnBack, () => showScreen(selectScreen));
