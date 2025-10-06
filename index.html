@@ -3,41 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Kenji’s Game Room</title>
+  <title>Kenji’s Game Museum</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- タイトル画面 -->
+  <!-- タイトル -->
   <div id="title-screen" class="screen active">
-    <h1>Kenji’s Game Room</h1>
+    <h1>Kenji’s Game Museum</h1>
     <p id="press-start">▶ TAP or PRESS ENTER</p>
   </div>
 
-  <!-- ゲーム選択 -->
+  <!-- カテゴリ選択 -->
   <div id="select-screen" class="screen">
-    <h2>SELECT YOUR GAME</h2>
-    <ul id="game-list">
-      <li class="selected">ドラクエⅢ</li>
-      <li>スマブラ</li>
-      <li>マリオ</li>
-    </ul>
+    <h2>SELECT CATEGORY</h2>
+    <ul id="category-list"></ul>
     <div class="buttons">
       <button id="btn-up">▲</button>
       <button id="btn-enter">OK</button>
       <button id="btn-down">▼</button>
     </div>
+    <button id="btn-ranking" class="small-btn">🏆 RANKING</button>
   </div>
 
-  <!-- ステータス画面 -->
+  <!-- ゲームリスト -->
+  <div id="game-list-screen" class="screen">
+    <h2 id="category-title"></h2>
+    <ul id="game-list"></ul>
+    <div class="buttons">
+      <button id="btn-up-game">▲</button>
+      <button id="btn-enter-game">OK</button>
+      <button id="btn-down-game">▼</button>
+    </div>
+    <button id="btn-back-category">← BACK</button>
+  </div>
+
+  <!-- レビュー画面 -->
   <div id="review-screen" class="screen">
-    <div id="review-box">
-      <h3 id="game-title"></h3>
-      <p id="review-desc"></p>
-      <div id="status-list"></div>
+    <div id="review-content">
+      <div class="gallery">
+        <div class="cartridge" id="cartridge"></div>
+      </div>
+      <div id="review-box">
+        <h3 id="game-title"></h3>
+        <p id="review-desc"></p>
+        <div id="status-list"></div>
+      </div>
     </div>
     <button id="btn-back">← BACK</button>
+  </div>
+
+  <!-- ランキング -->
+  <div id="ranking-screen" class="screen">
+    <h2>🏆 GAME RANKING 🏆</h2>
+    <ol id="ranking-list"></ol>
+    <button id="btn-back-ranking">← BACK</button>
   </div>
 
   <script src="script.js"></script>
