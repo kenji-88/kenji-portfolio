@@ -50,7 +50,10 @@ h1, h2, h3, p {
   padding: 0;
   margin-top: 20px;
   font-size: 12px;
+  max-height: 50vh; /* ← スマホで見切れないように */
+  overflow-y: auto;
 }
+
 
 #game-list li {
   margin: 8px;
