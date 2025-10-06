@@ -93,6 +93,27 @@ document.addEventListener("DOMContentLoaded", () => {
       rankingList.appendChild(li);
     });
   }
+  // 🏰 タイトル → セレクト（スマホでも可）
+  function enableTap(el, action) {
+    el.addEventListener("click", action);
+    el.addEventListener("touchstart", action, { passive: true });
+  }
+  enableTap(title, () => showScreen(select));
+
+  // 🎮 ゲームリスト（スマホタップ対応）
+  list.forEach((li, i) => {
+    enableTap(li, () => {
+      index = i;
+      updateList();
+      showReview();
+    });
+  });
+
+  // 🏆 ボタンもスマホ対応
+  enableTap(document.getElementById("enter"), showReview);
+  enableTap(document.getElementById("back"), () => showScreen(select));
+  enableTap(document.getElementById("ranking"), showRanking);
+  enableTap(document.getElementById("back-to-select"), () => showScreen(select));
 
   // カセット列生成
   const left = document.querySelector(".left-scroll");
