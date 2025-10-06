@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kenji Game Review</title>
+  <title>Kenji's Game Museum</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -11,8 +11,12 @@
 
   <!-- 🏰 タイトル画面 -->
   <div id="title-screen" class="screen active">
-    <h1>KENJI'S GAME MUSEUM</h1>
+    <div class="title-bg">
+      <div class="star"></div><div class="star"></div><div class="star"></div>
+    </div>
+    <h1>KENJI'S<br>GAME MUSEUM</h1>
     <p id="press-start">PRESS START</p>
+    <p class="subtitle">～名作たちと共に歩む冒険～</p>
   </div>
 
   <!-- 🎮 ゲーム選択画面 -->
@@ -29,43 +33,32 @@
         <li>スーパーペーパーマリオ</li>
         <li>スマブラDX</li>
       </ul>
-      <button id="enter">OK</button>
+      <div class="buttons">
+        <button id="enter">OK</button>
+        <button id="ranking">🏆 RANKING</button>
+      </div>
     </div>
   </div>
 
-  <!-- 🧩 ゲームレビュー画面 -->
+  <!-- 🧩 レビュー画面 -->
   <div id="review-screen" class="screen">
-    <div class="gallery">
-      <div id="card"></div>
-    </div>
-
+    <div class="gallery"><div id="card"></div></div>
     <h3 id="game-title"></h3>
-
     <div id="review-box">
-      <div class="status">
-        <span class="status-label">グラフィック</span>
-        <div class="status-bar"><div class="status-fill" id="graphics-bar"></div></div>
-        <span class="status-value" id="graphics-val"></span>
-      </div>
-      <div class="status">
-        <span class="status-label">音楽</span>
-        <div class="status-bar"><div class="status-fill" id="music-bar"></div></div>
-        <span class="status-value" id="music-val"></span>
-      </div>
-      <div class="status">
-        <span class="status-label">ストーリー</span>
-        <div class="status-bar"><div class="status-fill" id="story-bar"></div></div>
-        <span class="status-value" id="story-val"></span>
-      </div>
-      <div class="status">
-        <span class="status-label">総合</span>
-        <div class="status-bar"><div class="status-fill" id="overall-bar"></div></div>
-        <span class="status-value" id="overall-val"></span>
-      </div>
+      <div class="status"><span class="status-label">グラフィック</span><div class="status-bar"><div class="status-fill" id="graphics-bar"></div></div><span class="status-value" id="graphics-val"></span></div>
+      <div class="status"><span class="status-label">音楽</span><div class="status-bar"><div class="status-fill" id="music-bar"></div></div><span class="status-value" id="music-val"></span></div>
+      <div class="status"><span class="status-label">ストーリー</span><div class="status-bar"><div class="status-fill" id="story-bar"></div></div><span class="status-value" id="story-val"></span></div>
+      <div class="status"><span class="status-label">総合</span><div class="status-bar"><div class="status-fill" id="overall-bar"></div></div><span class="status-value" id="overall-val"></span></div>
       <p id="review-text"></p>
     </div>
-
     <button id="back">← BACK</button>
+  </div>
+
+  <!-- 🏆 ランキング画面 -->
+  <div id="ranking-screen" class="screen">
+    <h2>🏆 GAME RANKING</h2>
+    <ul id="ranking-list"></ul>
+    <button id="back-to-select">← BACK</button>
   </div>
 
   <script src="script.js"></script>
