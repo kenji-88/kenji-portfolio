@@ -2,63 +2,70 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Kenji’s Game Museum</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kenji Game Review</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- タイトル -->
+  <!-- 🏰 タイトル画面 -->
   <div id="title-screen" class="screen active">
-    <h1>Kenji’s Game Museum</h1>
-    <p id="press-start">▶ TAP or PRESS ENTER</p>
+    <h1>KENJI'S GAME MUSEUM</h1>
+    <p id="press-start">PRESS START</p>
   </div>
 
-  <!-- カテゴリ選択 -->
+  <!-- 🎮 ゲーム選択画面 -->
   <div id="select-screen" class="screen">
-    <h2>SELECT CATEGORY</h2>
-    <ul id="category-list"></ul>
-    <div class="buttons">
-      <button id="btn-up">▲</button>
-      <button id="btn-enter">OK</button>
-      <button id="btn-down">▼</button>
+    <div class="scroll-column left-scroll"></div>
+    <div class="scroll-column right-scroll"></div>
+
+    <div class="menu">
+      <h2>SELECT GAME</h2>
+      <ul id="game-list">
+        <li class="selected">ドラゴンクエストⅠ</li>
+        <li>ドラゴンクエストⅡ</li>
+        <li>マリオカート</li>
+        <li>スーパーペーパーマリオ</li>
+        <li>スマブラDX</li>
+      </ul>
+      <button id="enter">OK</button>
     </div>
-    <button id="btn-ranking" class="small-btn">🏆 RANKING</button>
   </div>
 
-  <!-- ゲームリスト -->
-  <div id="game-list-screen" class="screen">
-    <h2 id="category-title"></h2>
-    <ul id="game-list"></ul>
-    <div class="buttons">
-      <button id="btn-up-game">▲</button>
-      <button id="btn-enter-game">OK</button>
-      <button id="btn-down-game">▼</button>
-    </div>
-    <button id="btn-back-category">← BACK</button>
-  </div>
-
-  <!-- レビュー画面 -->
+  <!-- 🧩 ゲームレビュー画面 -->
   <div id="review-screen" class="screen">
-    <div id="review-content">
-      <div class="gallery">
-        <div class="cartridge" id="cartridge"></div>
-      </div>
-      <div id="review-box">
-        <h3 id="game-title"></h3>
-        <p id="review-desc"></p>
-        <div id="status-list"></div>
-      </div>
+    <div class="gallery">
+      <div id="card"></div>
     </div>
-    <button id="btn-back">← BACK</button>
-  </div>
 
-  <!-- ランキング -->
-  <div id="ranking-screen" class="screen">
-    <h2>🏆 GAME RANKING 🏆</h2>
-    <ol id="ranking-list"></ol>
-    <button id="btn-back-ranking">← BACK</button>
+    <h3 id="game-title"></h3>
+
+    <div id="review-box">
+      <div class="status">
+        <span class="status-label">グラフィック</span>
+        <div class="status-bar"><div class="status-fill" id="graphics-bar"></div></div>
+        <span class="status-value" id="graphics-val"></span>
+      </div>
+      <div class="status">
+        <span class="status-label">音楽</span>
+        <div class="status-bar"><div class="status-fill" id="music-bar"></div></div>
+        <span class="status-value" id="music-val"></span>
+      </div>
+      <div class="status">
+        <span class="status-label">ストーリー</span>
+        <div class="status-bar"><div class="status-fill" id="story-bar"></div></div>
+        <span class="status-value" id="story-val"></span>
+      </div>
+      <div class="status">
+        <span class="status-label">総合</span>
+        <div class="status-bar"><div class="status-fill" id="overall-bar"></div></div>
+        <span class="status-value" id="overall-val"></span>
+      </div>
+      <p id="review-text"></p>
+    </div>
+
+    <button id="back">← BACK</button>
   </div>
 
   <script src="script.js"></script>
