@@ -1,97 +1,124 @@
+const screens = document.querySelectorAll(".screen");
 const titleScreen = document.getElementById("title-screen");
 const selectScreen = document.getElementById("select-screen");
 const reviewScreen = document.getElementById("review-screen");
 
 const gameList = document.querySelectorAll("#game-list li");
-const reviewBox = document.getElementById("review-text");
 const gameTitle = document.getElementById("game-title");
+const reviewDesc = document.getElementById("review-desc");
+const statusList = document.getElementById("status-list");
+
+const btnUp = document.getElementById("btn-up");
+const btnDown = document.getElementById("btn-down");
+const btnEnter = document.getElementById("btn-enter");
+const btnBack = document.getElementById("btn-back");
 
 let currentIndex = 0;
-let currentGame = null;
-let typing = false;
 
-// レビュー内容
-const reviews = {
-  "ドラクエ": [
-    "壮大な冒険と感動のストーリー。",
-    "世界を救うために旅立つ勇者たちの姿に毎回心を打たれる。",
-    "シンプルながら奥深いコマンドバトルが魅力。"
-  ],
-  "スマブラ": [
-    "任天堂のオールスター大乱闘！",
-    "物理エンジンの完成度が高く、競技性も抜群。",
-    "友達と集まってワイワイやるのが最高。"
-  ],
-  "マリオ": [
-    "誰でも楽しめる2Dアクションの金字塔。",
-    "ジャンプの感触、ステージ構成、BGM──すべてが完璧。",
-    "シンプルだけど、奥深い。"
-  ]
+// === ゲームデータ ===
+const games = {
+  "ドラクエⅢ": {
+    desc: "壮大な冒険と感動のストーリー。世界を救う勇者たちの姿に心を打たれる。",
+    stats: {
+      "音楽 🎵": 9,
+      "グラフィック 🎨": 8,
+      "バトル ⚔️": 10,
+      "ストーリー 💭": 9,
+      "没入感 ❤️": 9
+    }
+  },
+  "スマブラ": {
+    desc: "任天堂オールスターが大乱闘！物理エンジンの完成度が高く、競技性も抜群。",
+    stats: {
+      "操作性 🎮": 10,
+      "グラフィック 🎨": 9,
+      "ステージ数 🏟️": 10,
+      "熱中度 🔥": 9,
+      "バランス ⚖️": 8
+    }
+  },
+  "マリオ": {
+    desc: "誰でも楽しめる2Dアクションの金字塔。ジャンプの気持ちよさと完成されたステージ。",
+    stats: {
+      "操作性 🎮": 9,
+      "デザイン 🎨": 10,
+      "難易度 ⚙️": 7,
+      "リプレイ性 🔁": 9,
+      "BGM 🎵": 10
+    }
+  }
 };
 
-// === タイトル画面 ===
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && titleScreen && !selectScreen.classList.contains("visible")) {
-    titleScreen.classList.add("hidden");
-    selectScreen.classList.remove("hidden");
-  }
-});
+// === 画面切り替え ===
+function showScreen(target) {
+  screens.forEach(s => s.classList.remove("active"));
+  target.classList.add("active");
+}
 
-// === セレクト操作 ===
-document.addEventListener("keydown", (e) => {
-  if (selectScreen.classList.contains("hidden")) return;
-
-  if (e.key === "ArrowUp") {
-    currentIndex = (currentIndex - 1 + gameList.length) % gameList.length;
-    updateSelection();
-  }
-  if (e.key === "ArrowDown") {
-    currentIndex = (currentIndex + 1) % gameList.length;
-    updateSelection();
-  }
-
-  if (e.key === "Enter") {
-    const selectedGame = gameList[currentIndex].textContent;
-    showReview(selectedGame);
-  }
-});
-
+// === ゲーム選択 ===
 function updateSelection() {
   gameList.forEach((li, i) => li.classList.toggle("selected", i === currentIndex));
 }
 
 // === レビュー表示 ===
 function showReview(game) {
-  selectScreen.classList.add("hidden");
-  reviewScreen.classList.remove("hidden");
+  showScreen(reviewScreen);
+  const data = games[game];
   gameTitle.textContent = game;
-  currentGame = game;
-  typeText(reviews[game]);
+  reviewDesc.textContent = data.desc;
+  statusList.innerHTML = "";
+
+  Object.entries(data.stats).forEach(([label, value]) => {
+    const stat = document.createElement("div");
+    stat.classList.add("status");
+    stat.innerHTML = `
+      <div class="status-label">${label}</div>
+      <div class="status-bar"><div class="status-fill"></div></div>
+      <div class="status-value">${value}/10</div>
+    `;
+    statusList.appendChild(stat);
+
+    // ゲージアニメーション
+    setTimeout(() => {
+      stat.querySelector(".status-fill").style.width = `${value * 10}%`;
+    }, 100);
+  });
 }
 
-// === タイプライター風テキスト ===
-function typeText(lines, i = 0) {
-  typing = true;
-  reviewBox.textContent = "";
-  let chars = lines[i].split("");
-  let j = 0;
-  let interval = setInterval(() => {
-    reviewBox.textContent += chars[j++];
-    if (j >= chars.length) {
-      clearInterval(interval);
-      typing = false;
-      if (i + 1 < lines.length) {
-        setTimeout(() => typeText(lines, i + 1), 800);
-      }
+// === 操作イベント（PC + スマホ） ===
+function handleInput(direction) {
+  if (selectScreen.classList.contains("active")) {
+    if (direction === "up") {
+      currentIndex = (currentIndex - 1 + gameList.length) % gameList.length;
+      updateSelection();
+    } else if (direction === "down") {
+      currentIndex = (currentIndex + 1) % gameList.length;
+      updateSelection();
+    } else if (direction === "enter") {
+      const selectedGame = gameList[currentIndex].textContent;
+      showReview(selectedGame);
     }
-  }, 40);
+  } else if (reviewScreen.classList.contains("active") && direction === "enter") {
+    showScreen(selectScreen);
+  }
 }
 
-// === 戻る ===
-document.addEventListener("keydown", (e) => {
-  if (reviewScreen.classList.contains("hidden")) return;
-  if (e.key === "ArrowLeft") {
-    reviewScreen.classList.add("hidden");
-    selectScreen.classList.remove("hidden");
-  }
+// === ボタン操作 ===
+btnUp.onclick = () => handleInput("up");
+btnDown.onclick = () => handleInput("down");
+btnEnter.onclick = () => handleInput("enter");
+btnBack.onclick = () => showScreen(selectScreen);
+
+// === キーボード操作（PC用） ===
+document.addEventListener("keydown", e => {
+  if (titleScreen.classList.contains("active") && e.key === "Enter") {
+    showScreen(selectScreen);
+  } else if (e.key === "ArrowUp") handleInput("up");
+  else if (e.key === "ArrowDown") handleInput("down");
+  else if (e.key === "Enter") handleInput("enter");
+});
+
+// === タイトル画面タップ ===
+titleScreen.addEventListener("click", () => {
+  showScreen(selectScreen);
 });

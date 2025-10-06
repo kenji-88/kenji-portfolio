@@ -1,28 +1,39 @@
 body {
-  background-color: black;
+  margin: 0;
+  background: black;
   color: white;
   font-family: 'Press Start 2P', cursive;
   overflow: hidden;
   text-align: center;
 }
 
-.hidden { display: none; }
-
-/* === タイトル画面 === */
-#title-screen {
+/* 各画面をフルサイズ中央配置 */
+.screen {
   position: fixed;
+  top: 0; left: 0;
   width: 100vw;
   height: 100vh;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #FFD700;
   background: radial-gradient(circle at center, #001a33 10%, #000010 100%);
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.screen.active {
+  display: flex;
+}
+
+h1, h2, h3, p {
+  margin: 8px 0;
+  line-height: 1.5em;
 }
 
 #press-start {
-  margin-top: 30px;
+  color: #FFD700;
+  font-size: 12px;
   animation: blink 1s infinite;
 }
 
@@ -31,20 +42,16 @@ body {
   50% { opacity: 0; }
 }
 
-/* === セレクト画面 === */
-#select-screen {
-  margin-top: 100px;
-}
-
+/* ゲーム選択画面 */
 #game-list {
   list-style: none;
   padding: 0;
-  margin-top: 40px;
+  margin-top: 20px;
+  font-size: 12px;
 }
 
 #game-list li {
-  margin: 15px;
-  font-size: 14px;
+  margin: 8px;
 }
 
 #game-list .selected::before {
@@ -52,26 +59,75 @@ body {
   color: #FFD700;
 }
 
-/* === レビュー画面 === */
+/* ステータス画面 */
 #review-box {
-  width: 80%;
-  height: 200px;
-  border: 4px solid #1E90FF;
-  margin: 100px auto;
+  width: 90%;
+  border: 3px solid #1E90FF;
   background-color: black;
-  padding: 20px;
-  text-align: left;
+  padding: 15px;
+  color: white;
   font-size: 10px;
-  color: #fff;
+  text-align: left;
+  overflow-y: auto;
+  max-height: 70vh;
 }
 
 #game-title {
   color: #FFD700;
   font-size: 12px;
-  margin-bottom: 10px;
 }
 
-#back-hint {
-  color: #888;
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.status-label {
+  width: 40%;
   font-size: 8px;
+}
+
+.status-bar {
+  flex: 1;
+  background-color: #333;
+  margin: 0 6px;
+  height: 8px;
+  border: 1px solid #555;
+  position: relative;
+}
+
+.status-fill {
+  background-color: #1E90FF;
+  height: 100%;
+  width: 0;
+  transition: width 1s ease;
+}
+
+.status-value {
+  width: 35px;
+  font-size: 8px;
+  text-align: right;
+}
+
+/* ボタン配置 */
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  background: black;
+  color: #FFD700;
+  border: 2px solid #FFD700;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+#btn-back {
+  margin-top: 15px;
 }

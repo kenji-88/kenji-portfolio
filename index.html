@@ -9,29 +9,35 @@
 </head>
 <body>
 
-  <!-- 🎬 タイトル画面 -->
-  <div id="title-screen">
+  <!-- タイトル画面 -->
+  <div id="title-screen" class="screen active">
     <h1>Kenji’s Game Room</h1>
-    <p id="press-start">▶ PRESS ENTER</p>
+    <p id="press-start">▶ TAP or PRESS ENTER</p>
   </div>
 
-  <!-- 🎮 セレクト画面 -->
-  <div id="select-screen" class="hidden">
+  <!-- ゲーム選択画面 -->
+  <div id="select-screen" class="screen">
     <h2>SELECT YOUR GAME</h2>
     <ul id="game-list">
-      <li class="selected">ドラクエ</li>
+      <li class="selected">ドラクエⅢ</li>
       <li>スマブラ</li>
       <li>マリオ</li>
     </ul>
+    <div class="buttons">
+      <button id="btn-up">▲</button>
+      <button id="btn-enter">OK</button>
+      <button id="btn-down">▼</button>
+    </div>
   </div>
 
-  <!-- 💬 レビュー画面 -->
-  <div id="review-screen" class="hidden">
+  <!-- レビュー（ステータス）画面 -->
+  <div id="review-screen" class="screen">
     <div id="review-box">
       <h3 id="game-title"></h3>
-      <div id="review-text"></div>
+      <p id="review-desc"></p>
+      <div id="status-list"></div>
     </div>
-    <p id="back-hint">(←キーで戻る)</p>
+    <button id="btn-back">← BACK</button>
   </div>
 
   <script src="script.js"></script>
