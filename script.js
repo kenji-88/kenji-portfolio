@@ -1,116 +1,97 @@
-// === タイトル画面 ===
-const titleScreen = document.getElementById('title-screen');
-const gameScreen = document.getElementById('game-screen');
-let gameStarted = false;
+const titleScreen = document.getElementById("title-screen");
+const selectScreen = document.getElementById("select-screen");
+const reviewScreen = document.getElementById("review-screen");
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !gameStarted) {
-    startGame();
+const gameList = document.querySelectorAll("#game-list li");
+const reviewBox = document.getElementById("review-text");
+const gameTitle = document.getElementById("game-title");
+
+let currentIndex = 0;
+let currentGame = null;
+let typing = false;
+
+// レビュー内容
+const reviews = {
+  "ドラクエ": [
+    "壮大な冒険と感動のストーリー。",
+    "世界を救うために旅立つ勇者たちの姿に毎回心を打たれる。",
+    "シンプルながら奥深いコマンドバトルが魅力。"
+  ],
+  "スマブラ": [
+    "任天堂のオールスター大乱闘！",
+    "物理エンジンの完成度が高く、競技性も抜群。",
+    "友達と集まってワイワイやるのが最高。"
+  ],
+  "マリオ": [
+    "誰でも楽しめる2Dアクションの金字塔。",
+    "ジャンプの感触、ステージ構成、BGM──すべてが完璧。",
+    "シンプルだけど、奥深い。"
+  ]
+};
+
+// === タイトル画面 ===
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && titleScreen && !selectScreen.classList.contains("visible")) {
+    titleScreen.classList.add("hidden");
+    selectScreen.classList.remove("hidden");
   }
 });
 
-function startGame() {
-  gameStarted = true;
-  titleScreen.style.transition = 'opacity 1s';
-  titleScreen.style.opacity = 0;
+// === セレクト操作 ===
+document.addEventListener("keydown", (e) => {
+  if (selectScreen.classList.contains("hidden")) return;
 
-  setTimeout(() => {
-    titleScreen.classList.add('hidden');
-    gameScreen.classList.remove('hidden');
-    initGame();
-  }, 1000);
+  if (e.key === "ArrowUp") {
+    currentIndex = (currentIndex - 1 + gameList.length) % gameList.length;
+    updateSelection();
+  }
+  if (e.key === "ArrowDown") {
+    currentIndex = (currentIndex + 1) % gameList.length;
+    updateSelection();
+  }
+
+  if (e.key === "Enter") {
+    const selectedGame = gameList[currentIndex].textContent;
+    showReview(selectedGame);
+  }
+});
+
+function updateSelection() {
+  gameList.forEach((li, i) => li.classList.toggle("selected", i === currentIndex));
 }
 
-// === ゲーム画面 ===
-function initGame() {
-  const canvas = document.getElementById('gameCanvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+// === レビュー表示 ===
+function showReview(game) {
+  selectScreen.classList.add("hidden");
+  reviewScreen.classList.remove("hidden");
+  gameTitle.textContent = game;
+  currentGame = game;
+  typeText(reviews[game]);
+}
 
-  const hero = new Image();
-  const field = new Image();
-  hero.src = "assets/hero.png"; // 小さな勇者のドット絵
-  field.src = "assets/field.png"; // 草原背景
-
-  let heroX = canvas.width / 2;
-  let heroY = canvas.height / 2;
-  const speed = 5;
-
-  let showMenu = false;
-  let selectedIndex = 0;
-  const options = ["経歴", "特技", "SNS"];
-
-  const messageBox = document.getElementById("message-box");
-  const menu = document.getElementById("menu");
-  const messageContent = document.getElementById("message-content");
-  const textContent = document.getElementById("text-content");
-
-  const messages = {
-    "経歴": "慶應義塾大学大学院 理工学研究科。AI・画像認識研究。",
-    "特技": "Python / ROS / YOLO / 画像処理 / チームリーダー経験",
-    "SNS": "GitHub: yoshizakikenji / X(Twitter): @kenji_ai_lab"
-  };
-
-  function draw() {
-    ctx.drawImage(field, 0, 0, canvas.width, canvas.height);
-    ctx.drawImage(hero, heroX - 16, heroY - 16, 32, 32);
-
-    requestAnimationFrame(draw);
-  }
-  draw();
-
-  // 移動操作
-  window.addEventListener("keydown", (e) => {
-    if (!showMenu) {
-      switch (e.key) {
-        case "ArrowUp": heroY -= speed; break;
-        case "ArrowDown": heroY += speed; break;
-        case "ArrowLeft": heroX -= speed; break;
-        case "ArrowRight": heroX += speed; break;
-        case "Enter":
-          messageBox.classList.remove("hidden");
-          showMenu = true;
-          updateMenu();
-          break;
-      }
-    } else {
-      if (messageContent.classList.contains("hidden")) {
-        // メニュー選択中
-        if (e.key === "ArrowUp") {
-          selectedIndex = (selectedIndex - 1 + options.length) % options.length;
-          updateMenu();
-        } else if (e.key === "ArrowDown") {
-          selectedIndex = (selectedIndex + 1) % options.length;
-          updateMenu();
-        } else if (e.key === "Enter") {
-          const selected = options[selectedIndex];
-          menu.classList.add("hidden");
-          messageContent.classList.remove("hidden");
-          textContent.textContent = messages[selected];
-        } else if (e.key === "Escape") {
-          messageBox.classList.add("hidden");
-          showMenu = false;
-        }
-      } else {
-        // メッセージ閲覧中
-        if (e.key === "Enter") {
-          messageContent.classList.add("hidden");
-          menu.classList.remove("hidden");
-          updateMenu();
-        }
+// === タイプライター風テキスト ===
+function typeText(lines, i = 0) {
+  typing = true;
+  reviewBox.textContent = "";
+  let chars = lines[i].split("");
+  let j = 0;
+  let interval = setInterval(() => {
+    reviewBox.textContent += chars[j++];
+    if (j >= chars.length) {
+      clearInterval(interval);
+      typing = false;
+      if (i + 1 < lines.length) {
+        setTimeout(() => typeText(lines, i + 1), 800);
       }
     }
-
-    heroX = Math.max(16, Math.min(canvas.width - 16, heroX));
-    heroY = Math.max(16, Math.min(canvas.height - 16, heroY));
-  });
-
-  function updateMenu() {
-    const menuItems = menu.querySelectorAll("p");
-    menuItems.forEach((item, i) => {
-      item.classList.toggle("selected", i === selectedIndex);
-      item.textContent = (i === selectedIndex ? "> " : "　") + options[i];
-    });
-  }
+  }, 40);
 }
+
+// === 戻る ===
+document.addEventListener("keydown", (e) => {
+  if (reviewScreen.classList.contains("hidden")) return;
+  if (e.key === "ArrowLeft") {
+    reviewScreen.classList.add("hidden");
+    selectScreen.classList.remove("hidden");
+  }
+});

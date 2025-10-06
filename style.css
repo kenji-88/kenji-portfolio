@@ -1,35 +1,28 @@
 body {
-  margin: 0;
-  overflow: hidden;
-  font-family: 'Press Start 2P', cursive;
   background-color: black;
   color: white;
+  font-family: 'Press Start 2P', cursive;
+  overflow: hidden;
+  text-align: center;
 }
 
-/* タイトル画面 */
+.hidden { display: none; }
+
+/* === タイトル画面 === */
 #title-screen {
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #FFD700;
-}
-
-.background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://i.imgur.com/Lk0Ffvl.png');
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-  opacity: 0.8;
+  background: radial-gradient(circle at center, #001a33 10%, #000010 100%);
 }
 
 #press-start {
+  margin-top: 30px;
   animation: blink 1s infinite;
 }
 
@@ -38,47 +31,47 @@ body {
   50% { opacity: 0; }
 }
 
-/* ゲーム画面 */
-.hidden {
-  display: none;
+/* === セレクト画面 === */
+#select-screen {
+  margin-top: 100px;
 }
 
-#gameCanvas {
-  display: block;
-  width: 100vw;
-  height: 100vh;
+#game-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 40px;
 }
 
-/* メッセージボックス */
-#message-box {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  background-color: #000;
-  border: 4px solid #1E90FF;
-  padding: 10px;
-  color: #fff;
-  font-size: 12px;
-  box-shadow: 0 0 20px #000;
+#game-list li {
+  margin: 15px;
+  font-size: 14px;
 }
 
-#menu p {
-  margin: 5px 0;
-}
-
-#menu p.selected {
+#game-list .selected::before {
+  content: "▶ ";
   color: #FFD700;
 }
 
-#message-content {
-  margin-top: 10px;
+/* === レビュー画面 === */
+#review-box {
+  width: 80%;
+  height: 200px;
+  border: 4px solid #1E90FF;
+  margin: 100px auto;
+  background-color: black;
+  padding: 20px;
+  text-align: left;
+  font-size: 10px;
+  color: #fff;
 }
 
-.return {
-  font-size: 10px;
+#game-title {
+  color: #FFD700;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+#back-hint {
   color: #888;
-  text-align: right;
-  margin-top: 10px;
+  font-size: 8px;
 }

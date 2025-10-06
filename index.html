@@ -1,36 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kenji Yoshizaki’s Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Kenji’s Game Room</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- タイトル画面 -->
+
+  <!-- 🎬 タイトル画面 -->
   <div id="title-screen">
-    <div class="background"></div>
-    <div class="title">
-      <h1>Kenji Yoshizaki’s Portfolio</h1>
-      <p id="press-start">Press Enter to Start</p>
-    </div>
+    <h1>Kenji’s Game Room</h1>
+    <p id="press-start">▶ PRESS ENTER</p>
   </div>
 
-  <!-- ゲーム画面 -->
-  <div id="game-screen" class="hidden">
-    <canvas id="gameCanvas"></canvas>
-    <div id="message-box" class="hidden">
-      <div id="menu">
-        <p>> 経歴</p>
-        <p>　特技</p>
-        <p>　SNS</p>
-      </div>
-      <div id="message-content" class="hidden">
-        <p id="text-content"></p>
-        <p class="return">(Press Enter to return)</p>
-      </div>
+  <!-- 🎮 セレクト画面 -->
+  <div id="select-screen" class="hidden">
+    <h2>SELECT YOUR GAME</h2>
+    <ul id="game-list">
+      <li class="selected">ドラクエ</li>
+      <li>スマブラ</li>
+      <li>マリオ</li>
+    </ul>
+  </div>
+
+  <!-- 💬 レビュー画面 -->
+  <div id="review-screen" class="hidden">
+    <div id="review-box">
+      <h3 id="game-title"></h3>
+      <div id="review-text"></div>
     </div>
+    <p id="back-hint">(←キーで戻る)</p>
   </div>
 
   <script src="script.js"></script>
