@@ -68,12 +68,18 @@ document.addEventListener("DOMContentLoaded", () => {
     updateList();
   });
 
-  setInterval(() => {
+setInterval(() => {
   const star = document.createElement("div");
   star.classList.add("shooting-star");
+
+  // ランダムな位置（画面上部 or 左側）
+  star.style.top = Math.random() * 50 + "vh";
+  star.style.left = Math.random() * 50 + "vw";
+
   document.getElementById("title-screen").appendChild(star);
   setTimeout(() => star.remove(), 3000);
-  }, 4000);
+}, 4000);
+
 
 
   list.forEach((li, i) => {

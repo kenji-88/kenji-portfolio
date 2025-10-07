@@ -42,11 +42,22 @@ body {
   height: 100px;
   background: linear-gradient(45deg, #fff, transparent);
   animation: shooting 3s linear forwards;
+  top: -10%;
+  left: -10%;
+  transform: rotate(-45deg);
 }
+
 @keyframes shooting {
-  0% { transform: translate(-10%, -10%) rotate(-45deg); opacity: 1; }
-  100% { transform: translate(120vw, 120vh) rotate(-45deg); opacity: 0; }
+  0% {
+    transform: translate(0, 0) rotate(-45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(120vmin, 120vmin) rotate(-45deg);
+    opacity: 0;
+  }
 }
+
 
 .title-bg .star {
   position: absolute;
