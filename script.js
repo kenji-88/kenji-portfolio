@@ -148,38 +148,43 @@ setInterval(() => {
 
   // 🏰 タイトル → セレクト（スマホでも可）
 // ✅ タップとクリックの多重発火防止版
+// ✅ 完全版：スマホとPCで分離し、2重発火を防止
 function enableTap(el, action) {
   let startY = 0;
   let moved = false;
-  let isTransitioning = false; // ← 多重タップ防止フラグ追加
+  let locked = false; // 多重実行ロック
 
-  el.addEventListener("touchstart", e => {
-    startY = e.touches[0].clientY;
-    moved = false;
-  }, { passive: true });
-
-  el.addEventListener("touchmove", e => {
-    const diff = Math.abs(e.touches[0].clientY - startY);
-    if (diff > 10) moved = true;
-  }, { passive: true });
-
-  el.addEventListener("touchend", e => {
-    if (moved || isTransitioning) return;
-    isTransitioning = true;
+  const execute = () => {
+    if (locked) return;
+    locked = true;
     action();
-    setTimeout(() => isTransitioning = false, 600); // ← 一定時間ロック
-  });
+    setTimeout(() => locked = false, 700); // 次の入力までの待機時間
+  };
 
-  // PC用のみ click イベントを追加
-  if (!("ontouchstart" in window)) {
+  if ("ontouchstart" in window) {
+    // 📱 スマホ・タブレット専用
+    el.addEventListener("touchstart", e => {
+      startY = e.touches[0].clientY;
+      moved = false;
+    }, { passive: true });
+
+    el.addEventListener("touchmove", e => {
+      const diff = Math.abs(e.touches[0].clientY - startY);
+      if (diff > 10) moved = true; // スクロール操作ならキャンセル
+    }, { passive: true });
+
+    el.addEventListener("touchend", e => {
+      if (!moved) execute();
+      e.preventDefault(); // ← click イベントをブロック！
+    });
+  } else {
+    // 💻 PC専用
     el.addEventListener("click", () => {
-      if (isTransitioning) return;
-      isTransitioning = true;
-      action();
-      setTimeout(() => isTransitioning = false, 600);
+      execute();
     });
   }
 }
+
 
 
   // ← TITLE ボタン機能
