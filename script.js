@@ -147,27 +147,39 @@ setInterval(() => {
   }
 
   // 🏰 タイトル → セレクト（スマホでも可）
-// ✅ スクロール操作を考慮した安全版
-  function enableTap(el, action) {
-    let startY = 0;
-    let moved = false;
+// ✅ タップとクリックの多重発火防止版
+function enableTap(el, action) {
+  let startY = 0;
+  let moved = false;
+  let isTransitioning = false; // ← 多重タップ防止フラグ追加
 
-    el.addEventListener("touchstart", e => {
-      startY = e.touches[0].clientY;
-      moved = false;
-    }, { passive: true });
+  el.addEventListener("touchstart", e => {
+    startY = e.touches[0].clientY;
+    moved = false;
+  }, { passive: true });
 
-    el.addEventListener("touchmove", e => {
-      const diff = Math.abs(e.touches[0].clientY - startY);
-      if (diff > 10) moved = true; // 指が10px以上動いたらスクロールと判断
-    }, { passive: true });
+  el.addEventListener("touchmove", e => {
+    const diff = Math.abs(e.touches[0].clientY - startY);
+    if (diff > 10) moved = true;
+  }, { passive: true });
 
-    el.addEventListener("touchend", e => {
-      if (!moved) action(); // スクロールしていない場合のみ実行
+  el.addEventListener("touchend", e => {
+    if (moved || isTransitioning) return;
+    isTransitioning = true;
+    action();
+    setTimeout(() => isTransitioning = false, 600); // ← 一定時間ロック
+  });
+
+  // PC用のみ click イベントを追加
+  if (!("ontouchstart" in window)) {
+    el.addEventListener("click", () => {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      action();
+      setTimeout(() => isTransitioning = false, 600);
     });
-
-    el.addEventListener("click", action); // PC用クリックも対応
   }
+}
 
 
   // ← TITLE ボタン機能
