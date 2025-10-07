@@ -185,6 +185,25 @@ h1 {
   width: 160px;
   height: 160px;
 }
+
+/* 🎨 レビュー背景の半透明レイヤー */
+#review-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;            
+  filter: blur(4px) brightness(0.7);  /* ぼかしと暗さで文字が読みやすくなる */
+  z-index: 0;              
+}
+#review-screen > *:not(#review-bg) {
+  position: relative;
+  z-index: 1;               
+}
+
+
 #card {
   width: 160px;
   height: 160px;
