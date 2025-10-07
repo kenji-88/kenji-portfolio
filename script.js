@@ -39,9 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   function showScreen(target) {
-    [title, select, review, rankingScreen].forEach(s => s.classList.remove("active"));
-    target.classList.add("active");
-  }
+  // ① フラッシュ要素を作成
+  const flash = document.createElement("div");
+  flash.classList.add("fade-flash");
+  document.body.appendChild(flash);
+
+  // ② 現在の画面を切り替え
+  [title, select, review, rankingScreen].forEach(s => s.classList.remove("active"));
+  target.classList.add("active");
+
+  // ③ 一定時間後にフェードを削除
+  setTimeout(() => flash.remove(), 800);
+}
+
 
   title.addEventListener("click", () => showScreen(select));
   document.addEventListener("keydown", e => {
@@ -105,22 +115,52 @@ document.addEventListener("DOMContentLoaded", () => {
     showScreen(rankingScreen);
     const rankingList = document.getElementById("ranking-list");
     rankingList.innerHTML = "";
-    const sorted = [...games].map(g => ({
-      name: g.name,
-      score: Math.round((g.g + g.m + g.s) / 3)
-    })).sort((a, b) => b.score - a.score);
-    sorted.forEach((g, i) => {
+
+    // ソートして上位5件だけ取得
+    const top5 = [...games]
+      .map(g => ({
+        name: g.name,
+        score: Math.round((g.g + g.m + g.s) / 3)
+      }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5); // 👈 上位5件だけ表示
+
+    // 表示処理
+    top5.forEach((g, i) => {
       const li = document.createElement("li");
       li.textContent = `${i + 1}. ${g.name} — ${g.score}点`;
       rankingList.appendChild(li);
     });
   }
+
   // 🏰 タイトル → セレクト（スマホでも可）
+// ✅ スクロール操作を考慮した安全版
   function enableTap(el, action) {
-    el.addEventListener("click", action);
-    el.addEventListener("touchstart", action, { passive: true });
+    let startY = 0;
+    let moved = false;
+
+    el.addEventListener("touchstart", e => {
+      startY = e.touches[0].clientY;
+      moved = false;
+    }, { passive: true });
+
+    el.addEventListener("touchmove", e => {
+      const diff = Math.abs(e.touches[0].clientY - startY);
+      if (diff > 10) moved = true; // 指が10px以上動いたらスクロールと判断
+    }, { passive: true });
+
+    el.addEventListener("touchend", e => {
+      if (!moved) action(); // スクロールしていない場合のみ実行
+    });
+
+    el.addEventListener("click", action); // PC用クリックも対応
   }
-  enableTap(title, () => showScreen(select));
+
+
+  // ← TITLE ボタン機能
+document.getElementById("back-to-title").addEventListener("click", () => showScreen(title));
+enableTap(document.getElementById("back-to-title"), () => showScreen(title));
+
 
   // 🎮 ゲームリスト（スマホタップ対応）
   list.forEach((li, i) => {
