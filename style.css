@@ -381,3 +381,37 @@ button {
   transform-origin: center center;
   background-position: center;
 }
+
+/* 🌙 スクロール誘導矢印 */
+#scroll-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  margin-top: 6px;
+  opacity: 0.8;
+  animation: fadeInHint 1.5s ease forwards;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #FFD700;
+  animation: arrowMove 1.2s infinite ease-in-out;
+}
+
+@keyframes arrowMove {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(4px); opacity: 1; }
+}
+
+@keyframes fadeInHint {
+  0% { opacity: 0; }
+  100% { opacity: 0.8; }
+}
+
+#scroll-indicator.hidden {
+  display: none;
+}
