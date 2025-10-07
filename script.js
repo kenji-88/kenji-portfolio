@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const list = document.querySelectorAll("#game-list li");
 
   const games = [
-    { name: "ドラゴンクエストⅠ", img: "icons/dq1.png", g: 90, m: 85, s: 80, text: "初代として冒険の始まりを感じた名作。" },
+    { name: "ドラゴンクエストⅠ", img: "icons/dq1.png", g: 86, m: 85, s: 80, text: "初代として冒険の始まりを感じた名作。" },
     { name: "ドラゴンクエストⅡ", img: "icons/dq2.png", g: 88, m: 83, s: 82, text: "仲間と冒険できるようになり、世界が広がった。" },
-    { name: "ドラゴンクエストⅢ", img: "icons/dq3.png", g: 88, m: 83, s: 82, text: "仲間と冒険できるようになり、世界が広がった。" },
+    { name: "ドラゴンクエストⅢ", img: "icons/dq3.png", g: 90, m: 97, s: 93, text: "ドラクエの中で初めてやった作品。リメイク版ともにプレイしたが、ストーリー、曲、全てすばらしい。ドラクエ初心者にも刺さるはずだが、コアなファンほど好きな作品だと思う。" },
     { name: "ドラゴンクエストⅣ", img: "icons/dq4.png", g: 88, m: 83, s: 82, text: "仲間と冒険できるようになり、世界が広がった。" },
     { name: "ドラゴンクエストⅤ", img: "icons/dq5.png", g: 88, m: 83, s: 82, text: "仲間と冒険できるようになり、世界が広がった。" }, 
     { name: "ドラゴンクエストⅥ", img: "icons/dq6.png", g: 88, m: 83, s: 82, text: "仲間と冒険できるようになり、世界が広がった。" },
