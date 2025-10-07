@@ -55,6 +55,14 @@ document.addEventListener("DOMContentLoaded", () => {
     updateList();
   });
 
+  setInterval(() => {
+  const star = document.createElement("div");
+  star.classList.add("shooting-star");
+  document.getElementById("title-screen").appendChild(star);
+  setTimeout(() => star.remove(), 3000);
+  }, 4000);
+
+
   list.forEach((li, i) => {
     li.addEventListener("click", () => {
       index = i;
@@ -133,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // カセット列生成
   const left = document.querySelector(".left-scroll");
   const right = document.querySelector(".right-scroll");
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < 40; i++) {
     const imgL = document.createElement("img");
     const imgR = document.createElement("img");
     const rand = games[i % games.length].img;
