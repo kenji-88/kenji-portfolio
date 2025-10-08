@@ -137,7 +137,7 @@ setInterval(() => {
         score: Math.round((g.g + g.m + g.s) / 3)
       }))
       .sort((a, b) => b.score - a.score)
-      .slice(0, 5); // 上位x件
+      .slice(0, 5); // 👈 上位5件だけ表示
 
     // 表示処理
     top5.forEach((g, i) => {
@@ -148,6 +148,8 @@ setInterval(() => {
   }
 
   // 🏰 タイトル → セレクト（スマホでも可）
+// ✅ タップとクリックの多重発火防止版
+// ✅ 完全版：スマホとPCで分離し、2重発火を防止
 function enableTap(el, action) {
   let startY = 0;
   let moved = false;
@@ -169,12 +171,12 @@ function enableTap(el, action) {
 
     el.addEventListener("touchmove", e => {
       const diff = Math.abs(e.touches[0].clientY - startY);
-      if (diff > 10) moved = true;
+      if (diff > 10) moved = true; // スクロール操作ならキャンセル
     }, { passive: true });
 
     el.addEventListener("touchend", e => {
       if (!moved) execute();
-      e.preventDefault();
+      e.preventDefault(); // ← click イベントをブロック！
     });
   } else {
     // 💻 PC専用
