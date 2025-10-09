@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!select.classList.contains("active")) return;
     if (e.key === "ArrowUp") index = (index - 1 + list.length) % list.length;
     if (e.key === "ArrowDown") index = (index + 1) % list.length;
+    if (e.key === "Enter") showReview();
     updateList();
   });
 
